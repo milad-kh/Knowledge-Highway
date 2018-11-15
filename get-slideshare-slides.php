@@ -1,13 +1,23 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>slideshare slides</title>
-</head>
-<body>
+<?php
+//
+// A very simple PHP example that sends a HTTP POST to a remote site
+//
 
-</body>
-</html>
+$ch = curl_init();
+
+curl_setopt($ch, CURLOPT_URL,"https://www.slideshare.net/api/2/search_slideshows");
+curl_setopt($ch, CURLOPT_POST, 0);
+curl_setopt($ch, CURLOPT_POSTFIELDS,
+            "q=javascript");
+
+// In real life you should use something like:
+// curl_setopt($ch, CURLOPT_POSTFIELDS,
+//          http_build_query(array('postvar1' => 'value1')));
+
+// Receive server response ...
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+$server_output = curl_exec($ch);
+
+curl_close ($ch);
+var_dump($server_output);
