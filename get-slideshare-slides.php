@@ -4,7 +4,7 @@ $apikey = '4pvJYcWA';
 $secret = 'Jcs0grSE';
 $ts = time(); //unix timestamp
 $hash = sha1($secret.$ts); //SHA1 (sharedsecret + timestamp)
-$postdata = '&api_key='.$apikey.'&ts='.$ts.'&hash='.$hash.'&q=php'.'&items_per_page=1&page=1';
+$postdata = '&api_key='.$apikey.'&ts='.$ts.'&hash='.$hash.'&q=javascript'.'&items_per_page=30&page=2';
 //cURL POST call with SSL
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL,"https://www.slideshare.net/api/2/search_slideshows");
@@ -15,11 +15,16 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_HEADER, 0);
 //execute
 $output = curl_exec($ch);
- 
+// $output = json_decode(curl_exec($ch));
+$xmldata = simplexml_load_string($output);
 if ($output === FALSE) {
   echo "cURL Error: " . curl_error($ch);
 } else {
-	print_r($output);
+	foreach($xmldata->Slideshow as $item)
+	{
+    echo $item->Embed;
+    echo "<br />";
+	}
 }
  
 curl_close($ch);
